@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
         .first()
         .then(zoo => {
             if(!zoo) {
-                res.status(404).json({ message: 'The zoo with specified ID does not exist.' })
+                res.status(400).json({ message: 'The zoo with specified ID does not exist.' })
             }
             res.status(200).json(zoo);
         })
@@ -57,7 +57,6 @@ router.post('/', (req, res) => {
                     res.status(500).json(error);
                 });
         })
-
 })
 
 router.delete('/:id', (req, res) => {
