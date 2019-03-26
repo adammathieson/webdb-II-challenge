@@ -9,6 +9,6 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
-server.use('./api/zoos', zoosRouter);
+server.use('/api/zoos', zoosRouter);
 
 module.exports = server;

@@ -22,11 +22,42 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    
-})
+    const zooId = req.params.id;
+
+    db('zoos')
+        .where({ id: zooId })
+        .first()
+        .then(zoo => {
+            if(!zoo) {
+                res.status(404).json({ message: 'The zoo with specified ID does not exist.' })
+            }
+            res.status(200).json(zoo);
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        });
+});
 
 router.post('/', (req, res) => {
-    
+    const { name } = req.body;
+    if(!name) {
+        res.status(404).json({ message: 'Please provide a name.' })
+    }
+    db('zoos')
+        .insert({ name })
+        .then(ids => {
+            const id = ids[0];
+            db('zoos')
+                .where({ id })
+                .first()
+                .then(zoo => {
+                    res.status(201).json(zoo.id)
+                })
+                .catch(error => {
+                    res.status(500).json(error);
+                });
+        })
+
 })
 
 router.delete('/:id', (req, res) => {
